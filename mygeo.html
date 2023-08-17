@@ -42,9 +42,7 @@
         function locateSuccess(position) {
             loadMap();
 
-            // Your code to handle geolocation success, e.g., setting map view, drawing on canvas
-
-            // Example: Set the map view to the user's location
+           
             map.setView({ center: new Microsoft.Maps.Location(position.coords.latitude, position.coords.longitude), zoom: 15 });
 
             // Example: Clear canvas and draw something
