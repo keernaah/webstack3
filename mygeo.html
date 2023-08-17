@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Geolocation and Bing Maps</title>
+    <style>
+        #mapCanvas {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Geolocation and Bing Maps</h1>
+    <p>Click the button to get your location:</p>
+    <button id="getLocationBtn">Get My Location</button>
+    <canvas id="mapCanvas"></canvas>
+
+    <script>
+        let canvas = document.getElementById("mapCanvas");
+        let ctx = canvas.getContext("2d");
+        let getLocationBtn = document.getElementById("getLocationBtn");
+
+        let map;
+
+        function loadMap() {
+            map = new Microsoft.Maps.Map(canvas, {
+                credentials: "ApSxx835I_THm3heh2jOlSTPADCWDJxVe-Ewv0wYxnifB1_Te4381Z5iOsjIjhg5"
+            });
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(locateSuccess, locateFail);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function locateSuccess(position) {
+            loadMap();
+
+            // Your code to handle geolocation success, e.g., setting map view, drawing on canvas
+
+            // Example: Set the map view to the user's location
+            map.setView({ center: new Microsoft.Maps.Location(position.coords.latitude, position.coords.longitude), zoom: 15 });
+
+            // Example: Clear canvas and draw something
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "blue";
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 2, 10, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        function locateFail(error) {
+            alert("Geolocation failed: " + error.message);
+        }
+
+        getLocationBtn.addEventListener("click", getLocation);
+        window.onload = loadMap;
+    </script>
+    <script src="https://www.bing.com/api/maps/mapcontrol?callback=loadMap&key=ApSxx835I_THm3heh2jOlSTPADCWDJxVe-Ewv0wYxnifB1_Te4381Z5iOsjIjhg5" async defer></script>
+</body>
+</html>
